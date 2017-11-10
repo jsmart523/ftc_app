@@ -1,4 +1,4 @@
-package hlr;
+package git.jsmart523.ftc_app.hlr.y2017;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
