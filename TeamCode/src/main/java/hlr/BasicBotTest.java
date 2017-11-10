@@ -1,4 +1,4 @@
-//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+package hlr;//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  * Created by JSmart523 for 10/28/2017.
  * Test 2!
  */
-@TeleOp(name="BasicBotTest", group="Linear Opmode")
+@TeleOp(name="hlr.BasicBotTest", group="Linear Opmode")
 public class BasicBotTest extends LinearOpMode {
     Robot1 robot = null;
     TouchSensor touch = null;
