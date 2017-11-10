@@ -1,3 +1,4 @@
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -8,17 +9,18 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 public class Robot1 {
-    private HardwareMap hardwareMap = null;
     private DcMotor     motorBL     = null;
     private DcMotor     motorBR     = null;
     private DcMotor     motorFL     = null;
     private DcMotor     motorFR     = null;
     private DcMotor     motorLift   = null;
+    private OpMode      opMode      = null;
     private Servo       servoL      = null;
     private Servo       servoR      = null;
     
-    public Robot1(HardwareMap hardwareMapArg) {
-        hardwareMap = hardwareMapArg;
+    public Robot1(OpMode opModeArg) {
+        opMode = opModeArg;
+        HardwareMap hardwareMap = opMode.hardwareMap;
         motorBL     = hardwareMap.dcMotor.get("??");
         motorBR     = hardwareMap.dcMotor.get("??");
         motorFL     = hardwareMap.dcMotor.get("??");
@@ -48,7 +50,7 @@ public class Robot1 {
         setWheelPowers(powerBL, powerBR, powerFL, powerFR);
     }
     
-    private void setWheelPowers(double powerBL, double powerBR, double powerFL, double powerFR) {
+    public void setWheelPowers(double powerBL, double powerBR, double powerFL, double powerFR) {
         double max = Math.max(Math.abs(powerBL), Math.abs(powerBR));
         max = Math.max(max, Math.abs(powerFL));
         max = Math.max(max, Math.abs(powerFR));
@@ -57,5 +59,9 @@ public class Robot1 {
         motorBR.setPower(powerBR / max);
         motorFL.setPower(powerFL / max);
         motorFR.setPower(powerFR / max);
+    }
+
+    public void stop() {
+        setWheelPowers(0, 0, 0, 0);
     }
 }
