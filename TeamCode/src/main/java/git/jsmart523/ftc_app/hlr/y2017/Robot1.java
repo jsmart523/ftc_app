@@ -45,9 +45,9 @@ public class Robot1 {
 */
     public void setVelocity(double speedForward, double speedRight, double speedTurnRight) {
         double powerFL = speedForward + speedRight + speedTurnRight;
-        double powerFR = speedForward + speedRight - speedTurnRight;
+        double powerFR = speedForward - speedRight - speedTurnRight;
         double powerBL = speedForward - speedRight + speedTurnRight;
-        double powerBR = speedForward - speedRight - speedTurnRight;
+        double powerBR = speedForward + speedRight - speedTurnRight;
 
         setWheelPowers(powerBL, powerBR, powerFL, powerFR);
     }
