@@ -5,20 +5,24 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by eaganrobotics on 10/19/2017.
  */
 
-@TeleOp(name = "DCOD", group = "Linear OpMode")
-public class DriverControlCOC extends ALinearOpMode1 {
+@TeleOp(name = "DCOD2", group = "Linear OpMode")
+public class DriverControlCOD1 extends ALinearOpMode1 {
+
+    double powerFactor = 1;
+    boolean aPressed = false;
+    boolean bPressed = false;
+
     @Override
     void customLoopBody() {
         makeWheelsMove();
         rotateServos();
         moveLift();
+        changePower();
     }
 
     public double convertStickToPower(double pos) {
 
-        // or to the power of some other number besides 2
-        double powerFactor = 1;
-        return Math.pow(pos, powerFactor);
+        return Math.signum(pos) * Math.pow(Math.abs(pos), powerFactor);
     }
 
 
@@ -26,7 +30,13 @@ public class DriverControlCOC extends ALinearOpMode1 {
         double forward = convertStickToPower(gamepad1.left_stick_y);
         double right = convertStickToPower(gamepad1.left_stick_x);
         double turn = convertStickToPower(gamepad1.right_stick_x);
+        telemetry.addLine()
+                .addData("f",forward)
+                .addData("r",right)
+                .addData("t",turn)
+                .addData("p",powerFactor);
         setVelocity(forward, right, turn);
+
 
     }
 
@@ -42,6 +52,7 @@ public class DriverControlCOC extends ALinearOpMode1 {
     }
 
     public void moveLift() {
+        /*
         if (gamepad1.a) {
             lift.setPower(1);
         }
@@ -50,6 +61,30 @@ public class DriverControlCOC extends ALinearOpMode1 {
         }
         else {
             lift.setPower(0);
+        }
+        */
+    }
+
+    public void changePower() {
+        if (gamepad1.a) {
+            if (!aPressed) {
+                aPressed = true;
+                powerFactor += 0.1;
+                telemetry.addData("power", powerFactor);
+            }
+        }
+        else {
+            aPressed = false;
+        }
+        if (gamepad1.b) {
+            if (!bPressed) {
+                bPressed = true;
+                powerFactor = Math.max(powerFactor - 0.1, 1);
+                telemetry.addData("power", powerFactor);
+            }
+        }
+        else {
+            bPressed = false;
         }
     }
 }
