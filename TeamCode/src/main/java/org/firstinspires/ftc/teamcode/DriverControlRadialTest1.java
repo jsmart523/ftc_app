@@ -16,36 +16,81 @@ public class DriverControlRadialTest1 extends ALinearOpMode2 {
         makeWheelsMove();
         rotateServos();
         moveLift();
- //       changePower();
+        //       changePower();
+    }
+
+    public double getDesiredRadiansFromStickValues(double x, double y) {
+        double forward = 0 - convertStickToPower(x);
+        double left = 0 - convertStickToPower(y);
+
+        return Math.atan2(forward, left);
     }
 
     public void makeWheelsMove() {
-        double forward = 0 - convertStickToPower(gamepad1.left_stick_x);
-        double left = 0 - convertStickToPower(gamepad1.left_stick_y);
+        double left_stick_x = gamepad1.left_stick_x;
+        double left_stick_y = gamepad1.left_stick_y;
 
-        double headingRadians = Math.atan2(forward, left);
-        double v = convertStickToPower(Math.hypot(forward, left));
+        //double forward = 0 - convertStickToPower(gamepad1.left_stick_x);
+        //double left = 0 - convertStickToPower(gamepad1.left_stick_y);
+
+
+        double gyroHeadingDegrees = gyro.getHeading();
+
+        // desired = actual + correction
+        //
+        double headingAbsoluteRadians = getDesiredRadiansFromStickValues(left_stick_x, left_stick_y);
+        double gyroHeadingRadians = Math.toRadians(gyroHeadingDegrees);
+        double headingRelativeRadians = getHeadingRadiansCorrection(headingAbsoluteRadians, gyroHeadingRadians);
+        double v = convertStickToPower(Math.hypot(left_stick_x, left_stick_y));
         double turn = getTurnVelocity();
 
         telemetry.addLine()
-                 .addData("sds", Math.toDegrees(headingRadians))
+                 .addData("sds", Math.toDegrees(headingAbsoluteRadians))
                  .addData("vs", v)
                  .addData("ts",turn);
-        telemetry.addData("g", gyro.getHeading());
+        telemetry.addData("g", gyroHeadingDegrees);
 
 
-        setRadialVelocity(headingRadians, v, turn);
+        setRadialVelocity(headingRelativeRadians, v, turn);
+    }
+
+    public double getHeadingRadiansCorrection(double headingRadiansDesired) {
+        return getHeadingRadiansCorrection(headingRadiansDesired, Math.toRadians(gyro.getHeading()));
+    }
+
+    public double getHeadingRadiansCorrection(double headingRadiansDesired, double headingRadiansActual) {
+        // correction = desired - actual
+        // desiredAbsolute = desiredRelative + actual
+        // we have absolute, and we have actual
+        // so solve for relative
+        // desiredRelative = desiredAbsolute - actual
+        // therefore, to get the relative heading, we need to call getHeadingRadiansCorrection(headingRadiansAbsolute, headingRadiansActual)
+        double headingRadiansCorrection = headingRadiansDesired - headingRadiansActual;
+        if (headingRadiansCorrection > Math.PI) {
+            headingRadiansCorrection -= 2 * Math.PI;
+        }
+        else if (headingRadiansCorrection < 0 - Math.PI) {
+            headingRadiansCorrection += 2 * Math.PI;
+        }
+        return headingRadiansCorrection;
     }
 
     public double getTurnVelocity() {
-        final double fullTurnThresholdRadians = 0.2;
+        final double minTurnThresholdRadians = Math.PI/18; // 10 degrees
+        final double fullTurnThresholdRadians = Math.PI/4; // 45 degrees
         final double maxTurnValue = 0.75;
 
-        double forward = gamepad1.right_stick_x;
-        double left = 0 - gamepad1.right_stick_y;
+        double x = gamepad1.right_stick_x;
+        double y = gamepad1.right_stick_y;
+
+        if (x == 0 && y == 0) {
+            return 0;
+        }
         
-        double headingRadiansDesired = Math.atan2(forward, left);
+        double headingRadiansDesired = getDesiredRadiansFromStickValues(x, y);
         double headingRadiansActual = Math.toRadians(gyro.getHeading());
+
+        //double headingRadiansCorrection = getHeadingRadiansCorrection(headingRadiansDesired, headingRadiansActual);
 
         double headingRadiansCorrection = headingRadiansDesired - headingRadiansActual;
         if (headingRadiansCorrection > Math.PI) {
@@ -54,15 +99,25 @@ public class DriverControlRadialTest1 extends ALinearOpMode2 {
         else if (headingRadiansCorrection < 0 - Math.PI) {
             headingRadiansCorrection += 2 * Math.PI;
         }
-        double sign = Math.signum(headingRadiansCorrection);
+
+        double sign = 0 - Math.signum(headingRadiansCorrection);
         double absRadiansCorrection = Math.abs(headingRadiansCorrection);
-        double turnEffortPercentage; // value from -1 to 1;
-        if ((absRadiansCorrection > fullTurnThresholdRadians) || (absRadiansCorrection == 0)) {
+        double turnEffortPercentage; // value from -1 to 1
+        if (absRadiansCorrection < minTurnThresholdRadians) {
+            turnEffortPercentage = 0;
+        }
+        else if (absRadiansCorrection > fullTurnThresholdRadians) {
             turnEffortPercentage = sign;
         }
         else {
             turnEffortPercentage = sign * (absRadiansCorrection / fullTurnThresholdRadians);
         }
+        telemetry.addLine()
+                .addData("hd", Math.floor(Math.toDegrees(headingRadiansDesired)))
+                .addData("ha", Math.floor(Math.toDegrees(headingRadiansActual)))
+                .addData("hc", Math.floor(Math.toDegrees(headingRadiansCorrection)))
+                .addData("hac", Math.floor(Math.toDegrees(absRadiansCorrection)))
+                .addData("t", turnEffortPercentage * maxTurnValue);
         return turnEffortPercentage * maxTurnValue;
     }
 
