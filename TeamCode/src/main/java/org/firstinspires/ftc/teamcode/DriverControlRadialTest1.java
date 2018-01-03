@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
@@ -6,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name = "RadialTest1", group = "Linear OpMode")
+@Disabled
 public class DriverControlRadialTest1 extends ALinearOpMode2 {
 
     boolean aPressed = false;
