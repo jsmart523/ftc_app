@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -20,6 +22,7 @@ public abstract class ALinearOpMode3 extends LinearOpMode {
     protected Servo left = null;
     protected Servo right = null;
     protected GyroSensor gyro = null;
+    protected ModernRoboticsI2cColorSensor color = null;
 
 
     double powerFactor = 3.2;
@@ -55,13 +58,15 @@ public abstract class ALinearOpMode3 extends LinearOpMode {
             sleep(50);
         }
 
+        color = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "color");
+
         setStatus("Ready");
         customSetup();
         telemetry.update();
         waitForStart();
+     //   telemetry.addData("heading", new Func_GyroHeading(gyro)); need to change to be HeadingDegreesActual (inc offset and 180)
 
         while (opModeIsActive()) {
-            telemetry.addData("heading", new Func_GyroHeading(gyro));
             customLoopBody();
             telemetry.update();
         }
