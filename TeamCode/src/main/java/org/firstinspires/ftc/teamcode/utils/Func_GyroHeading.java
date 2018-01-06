@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.utils;
 
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
@@ -9,14 +9,15 @@ import org.firstinspires.ftc.robotcore.external.Func;
  */
 
 public class Func_GyroHeading implements Func {
-    GyroSensor m_gyro;
 
-    public Func_GyroHeading(GyroSensor gyro) {
-        m_gyro = gyro;
+    IContainsGyro gyroContainer;
+
+    public Func_GyroHeading(IContainsGyro robot) {
+        gyroContainer = robot;
     }
 
     @Override
     public Object value() {
-        return m_gyro.getHeading();
+        return gyroContainer.getHeadingDegreesActual();
     }
 }

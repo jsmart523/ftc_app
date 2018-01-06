@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.utils.Func_GyroHeading;
+import org.firstinspires.ftc.teamcode.utils.IContainsGyro;
 
 
 /**
@@ -13,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Updated from ALinearOpMode1 by adding the gyro
  */
 
-public abstract class ALinearOpMode3 extends LinearOpMode {
+public abstract class ALinearOpMode3 extends LinearOpMode implements IContainsGyro {
     protected DcMotor bottomLeft = null;
     protected DcMotor bottomRight = null;
     protected DcMotor topLeft = null;
@@ -52,7 +54,7 @@ public abstract class ALinearOpMode3 extends LinearOpMode {
         setStatus("calibrating gyro...");
         telemetry.update();
         gyro = hardwareMap.gyroSensor.get("gyro");
-        func_GyroHeading = new Func_GyroHeading(gyro);
+        func_GyroHeading = new Func_GyroHeading(this);
         gyro.calibrate();
         while(gyro.isCalibrating()) {
             sleep(50);
@@ -64,7 +66,7 @@ public abstract class ALinearOpMode3 extends LinearOpMode {
         customSetup();
         telemetry.update();
         waitForStart();
-     //   telemetry.addData("heading", new Func_GyroHeading(gyro)); need to change to be HeadingDegreesActual (inc offset and 180)
+        telemetry.addData("heading", new Func_GyroHeading(this));
 
         while (opModeIsActive()) {
             customLoopBody();
@@ -169,12 +171,10 @@ public abstract class ALinearOpMode3 extends LinearOpMode {
         else return degrees;
     }
 
-    // given the stick_x and stick_y, get the angle, with zero being "forward" PI/2 being "left"
+    // given the stick_x and stick_y, get the angle, with zero being "forward", PI/2 being "left", PI being "backwards", -PI/2 being "right"
+    // returns value between -PI and PI
     public double getRadiansFromStickValues(double x, double y) {
-        double forward = convertStickToPower(x);
-        double left = convertStickToPower(y);
-
-        return radians180(Math.atan2(-forward, -left));
+        return radians180(Math.atan2(-x, -y));
     }
 
 }

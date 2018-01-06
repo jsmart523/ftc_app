@@ -46,9 +46,9 @@ public class DriverControlRadialTest3 extends ALinearOpMode3 {
     }
 
     public double getTurnVelocity() {
-        final double minTurnThresholdRadians = Math.PI/60; //  3 degrees
-        final double fullTurnThresholdRadians = Math.PI/6; // 30 degrees
-        final double maxTurnValue = 0.75;
+        final double minTurnThresholdRadians = Math.PI/180; // 1 degrees
+        final double fullTurnThresholdRadians = Math.PI/3; // 60 degrees
+        final double maxTurnValue = 1;
 
         double x = gamepad1.right_stick_x;
         double y = gamepad1.right_stick_y;
@@ -61,23 +61,23 @@ public class DriverControlRadialTest3 extends ALinearOpMode3 {
         double headingRadiansCorrection = radians180(headingRadiansDesired - getHeadingRadiansActual());
         double sign = 0 - Math.signum(headingRadiansCorrection);
         double absRadiansCorrection = Math.abs(headingRadiansCorrection);
-        double turnEffortPercentage; // value from -1 to 1
-        
+        double turnEffortPercentage = convertStickToPower(Math.hypot(x, y)) * maxTurnValue;// value from -1 to 1
+
         if (absRadiansCorrection < minTurnThresholdRadians) {
             turnEffortPercentage = 0;
         }
         else if (absRadiansCorrection > fullTurnThresholdRadians) {
-            turnEffortPercentage = sign;
+            turnEffortPercentage *= sign;
         }
         else {
-            turnEffortPercentage = sign * (absRadiansCorrection / fullTurnThresholdRadians);
+            turnEffortPercentage *= sign * (absRadiansCorrection / fullTurnThresholdRadians);
         }
         telemetry.addLine()
                 .addData("hd", Math.round(Math.toDegrees(headingRadiansDesired)))
                 .addData("hc", Math.round(Math.toDegrees(headingRadiansCorrection)))
                 .addData("hac", Math.round(Math.toDegrees(absRadiansCorrection)))
-                .addData("t", turnEffortPercentage * maxTurnValue);
-        return turnEffortPercentage * maxTurnValue;
+                .addData("t", turnEffortPercentage);
+        return turnEffortPercentage;
     }
 
 
