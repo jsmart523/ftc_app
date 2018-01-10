@@ -67,7 +67,11 @@ public abstract class ALinearOpMode3 extends LinearOpMode implements IContainsGy
         telemetry.update();
         waitForStart();
         telemetry.addData("heading", new Func_GyroHeading(this));
-
+        telemetry.addLine()
+                .addData("left", left.getPosition())
+                .addData("right", right.getPosition());
+        left.setPosition(1);
+        right.setPosition(0);
         while (opModeIsActive()) {
             customLoopBody();
             telemetry.update();
@@ -75,6 +79,9 @@ public abstract class ALinearOpMode3 extends LinearOpMode implements IContainsGy
 
         customTearDown();
     }
+
+    // .69, .24
+    // 0, 1
 
 
     protected void customSetup() {

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name = "ColorTest", group = "Linear OpMode")
-public class DriverControlRadialTest4 extends ALinearOpMode3 {
+public class ColorTest extends ALinearOpMode3 {
 
     @Override
     protected void customSetup() {

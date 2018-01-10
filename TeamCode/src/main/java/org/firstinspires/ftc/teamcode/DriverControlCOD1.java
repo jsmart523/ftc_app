@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name = "DCOD2", group = "Linear OpMode")
-public class DriverControlCOD1 extends ALinearOpMode1 {
+public class DriverControlCOD1 extends ALinearOpMode3 {
 
     double powerFactor = 1;
     boolean aPressed = false;

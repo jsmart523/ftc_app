@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @TeleOp(name = "DriverControl2", group = "Linear Opmode")
-public class DriverControl2 extends ALinearOpMode1 {
+public class DriverControl2 extends ALinearOpMode3 {
     @Override
     void customLoopBody() {
         makeWheelsMove();

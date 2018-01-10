@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name = "DriverControl", group = "Linear Opmode")
+@Disabled
 public class DriverControl extends LinearOpMode {
 
     private DcMotor bottomLeft = null;
