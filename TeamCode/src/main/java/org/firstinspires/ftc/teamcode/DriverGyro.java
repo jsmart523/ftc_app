@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * No code changes other than testing ALinearOpMode3 and moving code from this level into ALinearOpMode3
  */
 
-@TeleOp(name = "RadialTest3", group = "Linear OpMode")
-public class DriverControlRadialTest3 extends ALinearOpMode3 {
+@TeleOp(name = "Gyro", group = "Linear OpMode")
+public class DriverGyro extends ALinearOpMode3 {
 
     @Override
     protected void customSetup() {

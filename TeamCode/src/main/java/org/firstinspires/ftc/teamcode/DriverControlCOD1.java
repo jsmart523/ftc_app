@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by eaganrobotics on 10/19/2017.
  */
 
-@TeleOp(name = "DCOD2", group = "Linear OpMode")
+@TeleOp(name = "DCOD", group = "Linear OpMode")
 public class DriverControlCOD1 extends ALinearOpMode3 {
 
     double powerFactor = 1;

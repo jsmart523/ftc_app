@@ -3,7 +3,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
- * From DriverControlRadialTest3
+ * From DriverGyro
  * Same, but implementing the color sensor
  */
 

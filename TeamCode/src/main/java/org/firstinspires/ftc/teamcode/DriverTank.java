@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -9,8 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @TeleOp(name = "DriverControl2", group = "Linear Opmode")
-@Disabled
-public class DriverControl2 extends ALinearOpMode3 {
+public class DriverTank extends ALinearOpMode3 {
     @Override
     void customLoopBody() {
         makeWheelsMove();
@@ -39,22 +37,23 @@ public class DriverControl2 extends ALinearOpMode3 {
         }
     }
 
-    public void rotateServos() {
-        if (gamepad2.x) { //change to y and x
-            left.setPosition(Servo.MAX_POSITION);
-            right.setPosition(Servo.MAX_POSITION);
+    public void rotateServos() { //Right Servo out = MAX, Left Servo out = MIN
+        if (gamepad1.x) { //change to y and x
+            left.setPosition(.69); //.63 with other arms
+            right.setPosition(.24); //.3 with other arms
         }
-        if (gamepad2.y) {
-            left.setPosition(Servo.MIN_POSITION);
-            right.setPosition(Servo.MIN_POSITION);
+
+        if (gamepad1.y) {
+            left.setPosition(0);
+            right.setPosition(1);
         }
     }
 
     public void moveLift() {
-        if (gamepad2.a) {
+        if (gamepad1.a) {
             lift.setPower(1);
         }
-        else if (gamepad2.b) {
+        else if (gamepad1.b) {
             lift.setPower(-1);
         }
         else {

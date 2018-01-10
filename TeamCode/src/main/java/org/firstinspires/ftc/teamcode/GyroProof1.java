@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
  */
 
 @TeleOp(name = "GyroTest1", group = "Linear OpMode")
+@Disabled
 public class GyroProof1 extends ALinearOpMode1 {
     protected GyroSensor gyro = null;
     boolean apressed = false;
