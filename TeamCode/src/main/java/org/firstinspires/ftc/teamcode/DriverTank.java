@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Same as DriverControl.java except that this one inherits from aLinearOpMode1
  */
 
-@TeleOp(name = "DriverControl2", group = "Linear Opmode")
+@TeleOp(name = "Tank", group = "Linear Opmode")
 public class DriverTank extends ALinearOpMode3 {
     @Override
     void customLoopBody() {
