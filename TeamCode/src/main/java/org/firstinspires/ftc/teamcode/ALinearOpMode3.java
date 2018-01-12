@@ -34,44 +34,7 @@ public abstract class ALinearOpMode3 extends LinearOpMode implements IContainsGy
 
     @Override
     public void runOpMode() {
-        setStatus("Initializing");
-        telemetry.update();
-
-        bottomLeft = hardwareMap.get(DcMotor.class, "bottomLeft");
-        bottomRight = hardwareMap.get(DcMotor.class, "bottomRight");
-        topLeft = hardwareMap.get(DcMotor.class, "topLeft");
-        topRight = hardwareMap.get(DcMotor.class, "topRight");
-        lift = hardwareMap.get(DcMotor.class, "lift");
-        left = hardwareMap.get(Servo.class, "left");
-        right = hardwareMap.get(Servo.class, "right");
-
-        bottomLeft.setDirection(DcMotor.Direction.FORWARD);
-        topLeft.setDirection(DcMotor.Direction.FORWARD);
-        bottomRight.setDirection(DcMotor.Direction.REVERSE);
-        topRight.setDirection(DcMotor.Direction.REVERSE);
-
-
-        setStatus("calibrating gyro...");
-        telemetry.update();
-        gyro = hardwareMap.gyroSensor.get("gyro");
-        func_GyroHeading = new Func_GyroHeading(this);
-        gyro.calibrate();
-        while(gyro.isCalibrating()) {
-            sleep(50);
-        }
-
-        color = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "color");
-
-        setStatus("Ready");
-        customSetup();
-        telemetry.update();
-        waitForStart();
-        telemetry.addData("heading", new Func_GyroHeading(this));
-        telemetry.addLine()
-                .addData("left", left.getPosition())
-                .addData("right", right.getPosition());
-        left.setPosition(1);
-        right.setPosition(0);
+        standardSetup();
         while (opModeIsActive()) {
             customLoopBody();
             telemetry.update();
@@ -87,7 +50,8 @@ public abstract class ALinearOpMode3 extends LinearOpMode implements IContainsGy
     protected void customSetup() {
     }
 
-    abstract void customLoopBody();
+    protected void customLoopBody() {
+    }
 
     protected void customTearDown() {
     }
@@ -182,6 +146,47 @@ public abstract class ALinearOpMode3 extends LinearOpMode implements IContainsGy
     // returns value between -PI and PI
     public double getRadiansFromStickValues(double x, double y) {
         return radians180(Math.atan2(-x, -y));
+    }
+
+    public void standardSetup() {
+        setStatus("Initializing");
+        telemetry.update();
+
+        bottomLeft = hardwareMap.get(DcMotor.class, "bottomLeft");
+        bottomRight = hardwareMap.get(DcMotor.class, "bottomRight");
+        topLeft = hardwareMap.get(DcMotor.class, "topLeft");
+        topRight = hardwareMap.get(DcMotor.class, "topRight");
+        lift = hardwareMap.get(DcMotor.class, "lift");
+        left = hardwareMap.get(Servo.class, "left");
+        right = hardwareMap.get(Servo.class, "right");
+
+        bottomLeft.setDirection(DcMotor.Direction.FORWARD);
+        topLeft.setDirection(DcMotor.Direction.FORWARD);
+        bottomRight.setDirection(DcMotor.Direction.REVERSE);
+        topRight.setDirection(DcMotor.Direction.REVERSE);
+
+
+        setStatus("calibrating gyro...");
+        telemetry.update();
+        gyro = hardwareMap.gyroSensor.get("gyro");
+        func_GyroHeading = new Func_GyroHeading(this);
+        gyro.calibrate();
+        while(gyro.isCalibrating()) {
+            sleep(50);
+        }
+
+        color = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "color");
+
+        setStatus("Ready");
+        customSetup();
+        telemetry.update();
+        waitForStart();
+        telemetry.addData("heading", new Func_GyroHeading(this));
+        telemetry.addLine()
+                .addData("left", left.getPosition())
+                .addData("right", right.getPosition());
+        left.setPosition(1);
+        right.setPosition(0);
     }
 
 }

@@ -13,7 +13,7 @@ public class DriverControlCOD1 extends ALinearOpMode3 {
     boolean bPressed = false;
 
     @Override
-    void customLoopBody() {
+    protected void customLoopBody() {
         makeWheelsMove();
         rotateServos();
         moveLift();

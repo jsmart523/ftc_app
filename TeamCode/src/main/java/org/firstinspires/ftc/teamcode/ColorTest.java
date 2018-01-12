@@ -16,7 +16,7 @@ public class ColorTest extends ALinearOpMode3 {
     }
 
     @Override
-    void customLoopBody() {
+    protected void customLoopBody() {
         color.writeCommand(ModernRoboticsI2cColorSensor.Command.ACTIVE_LED);
         telemetry.addLine()
                 .addData("r",color.red())

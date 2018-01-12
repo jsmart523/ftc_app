@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Disabled
 public class DriverControl2 extends ALinearOpMode3 {
     @Override
-    void customLoopBody() {
+    protected void customLoopBody() {
         makeWheelsMove();
         rotateServos();
         moveLift();

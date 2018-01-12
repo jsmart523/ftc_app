@@ -14,7 +14,7 @@ public class DriverGyro extends ALinearOpMode3 {
     }
 
     @Override
-    void customLoopBody() {
+    protected void customLoopBody() {
         makeWheelsMove();
         rotateServos();
         moveLift();

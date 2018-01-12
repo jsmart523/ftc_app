@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "Tank", group = "Linear Opmode")
 public class DriverTank extends ALinearOpMode3 {
     @Override
-    void customLoopBody() {
+    protected void customLoopBody() {
         makeWheelsMove();
         rotateServos();
         moveLift();
