@@ -17,7 +17,7 @@ public class AutonomousRedFarPlatform extends ALinearOpMode3 {
         super.standardSetup();
 
         time.reset();
-        while(time.seconds() < 300) {
+        while (time.seconds() < 24) {
             telemetry.addLine()
                     .addData("Time Elapsed", time.seconds());
             telemetry.update();
