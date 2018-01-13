@@ -17,23 +17,32 @@ public class DriverTank extends ALinearOpMode3 {
     }
 
     public void makeWheelsMove() {
-        if (!gamepad1.left_bumper && !gamepad1.right_bumper) {
-            double l = gamepad1.left_stick_y;
+        //setWheelPowers(double powerBottomLeft, double powerBottomRight, double powerTopLeft, double powerTopRight)
+
+        if (gamepad1.left_trigger > 0.25) { //strafe left
+            //public void setVelocity(double speedForward, double speedRight, double speedTurnRight)
+            setVelocity(0, -1, 0);
+/*          topLeft.setPower(-1);
+            topRight.setPower(-1);
+            bottomLeft.setPower(1);
+            bottomRight.setPower(1);*/
+        } else if (gamepad1.right_trigger > 0.25) { //strafe right
+            //public void setVelocity(double speedForward, double speedRight, double speedTurnRight)
+            setVelocity(0, 1, 0);
+/*            topLeft.setPower(1);
+            topRight.setPower(1);
+            bottomLeft.setPower(-1);
+            bottomRight.setPower(-1);*/
+        } else {
+            double powerRight = convertStickToPower(gamepad1.left_stick_y);
+            double powerLeft = convertStickToPower(gamepad1.right_stick_y);
+            setWheelPowers(powerLeft, powerRight, powerLeft, powerRight);
+/*          double l = gamepad1.left_stick_y;
             double r = gamepad1.right_stick_y;
             topLeft.setPower(l);
             topRight.setPower(r);
             bottomLeft.setPower(l);
-            bottomRight.setPower(r);
-        } else if (gamepad1.left_bumper) { //strafe left
-            topLeft.setPower(-1);
-            topRight.setPower(-1);
-            bottomLeft.setPower(1);
-            bottomRight.setPower(1);
-        } else if (gamepad1.right_bumper) { //strafe right
-            topLeft.setPower(1);
-            topRight.setPower(1);
-            bottomLeft.setPower(-1);
-            bottomRight.setPower(-1);
+            bottomRight.setPower(r);*/
         }
     }
 
