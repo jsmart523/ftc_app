@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "Tank", group = "Linear Opmode")
 public class DriverTank extends ALinearOpMode3 {
+    public final double TRIGGER_THRESHOLD = 0.25;
+
     @Override
     protected void customLoopBody() {
         makeWheelsMove();
@@ -19,14 +21,14 @@ public class DriverTank extends ALinearOpMode3 {
     public void makeWheelsMove() {
         //setWheelPowers(double powerBottomLeft, double powerBottomRight, double powerTopLeft, double powerTopRight)
 
-        if (gamepad1.left_trigger > 0.25) { //strafe left
+        if (gamepad1.left_trigger > TRIGGER_THRESHOLD) { //strafe left
             //public void setVelocity(double speedForward, double speedRight, double speedTurnRight)
             setVelocity(0, -1, 0);
 /*          topLeft.setPower(-1);
             topRight.setPower(-1);
             bottomLeft.setPower(1);
             bottomRight.setPower(1);*/
-        } else if (gamepad1.right_trigger > 0.25) { //strafe right
+        } else if (gamepad1.right_trigger > TRIGGER_THRESHOLD) { //strafe right
             //public void setVelocity(double speedForward, double speedRight, double speedTurnRight)
             setVelocity(0, 1, 0);
 /*            topLeft.setPower(1);
