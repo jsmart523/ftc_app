@@ -14,7 +14,7 @@ public class AutonomousRedFarPlatform extends ALinearOpMode3 {
     private final double rps = 2.53;
     private final double gearRPS = 1.8975;
     private final double movementPerRevolution = (4 * Math.PI); //inches
-    private final double movementPerSecond = gearRPS * movementPerRevolution * 1.46788990826; //inches per second
+    private final double movementPerSecond = gearRPS * movementPerRevolution * 1.46788990826; //inches per second lol
 
     //10 inches goes 6.8125 inches
 
