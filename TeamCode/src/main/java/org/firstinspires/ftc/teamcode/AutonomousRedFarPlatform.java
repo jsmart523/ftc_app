@@ -12,11 +12,11 @@ import org.firstinspires.ftc.teamcode.ALinearOpMode3;
 public class AutonomousRedFarPlatform extends ALinearOpMode3 {
     ElapsedTime time = new ElapsedTime();
     private final double rps = 2.53;
-    private final double gearRPS = 1.8975;
-    private final double movementPerRevolution = (4 * Math.PI); //inches
-    private final double movementPerSecond = gearRPS * movementPerRevolution * 1.46788990826; //inches per second lollol
+    private final double gearRPS = rps * (1.5 / 2);
+    private final double movementPerRevolution = (2 * 2 * Math.PI); //inches (radius * 2PI)
+    private final double movementPerSecond = gearRPS * movementPerRevolution; //inches per second lollol
 
-    //10 inches goes 6.8125 inches
+    //10 inches goes 5.1875 inches
 
     @Override
     public void runOpMode() {
