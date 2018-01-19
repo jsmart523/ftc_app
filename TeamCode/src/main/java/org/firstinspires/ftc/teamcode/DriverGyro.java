@@ -46,7 +46,7 @@ public class DriverGyro extends ALinearOpMode3 {
     }
 
     public double getTurnVelocity() {
-        final double minTurnThresholdRadians = Math.PI/180; // 1 degrees
+        final double minTurnThresholdRadians = Math.PI/90; // 2 degrees
         final double fullTurnThresholdRadians = Math.PI/3; // 60 degrees
         final double maxTurnValue = 1;
 
@@ -105,5 +105,3 @@ public class DriverGyro extends ALinearOpMode3 {
         }
     }
 }
-
-

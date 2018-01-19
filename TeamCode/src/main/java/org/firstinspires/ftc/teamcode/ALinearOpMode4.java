@@ -170,7 +170,7 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
         setStatus("calibrating gyro...");
         telemetry.update();
 
-        GyroSensor gyroArray[] = {hardwareMap.gyroSensor.get("gyro")};
+        GyroSensor gyroArray[] = {hardwareMap.gyroSensor.get("gyro"), hardwareMap.gyroSensor.get("gyro2")};
         gyro = new GyroGroup(gyroArray);
         func_GyroHeading = new Func_GyroHeading(this);
         gyro.calibrate();
@@ -191,6 +191,5 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
         left.setPosition(1);
         right.setPosition(0);
     }
-
 }
 
