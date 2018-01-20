@@ -197,6 +197,13 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
     }
 
     /**
+     * This is not the current velocity of the robot, it's how hard the robot *should* be turning in order to get to the desired heading, as compared to this.getHeadingActual()
+     * Example:
+     *      double headingRadiansDesired = Math.PI;
+     *      double w;
+     *      while (w = getTurnVelocity(headingRadiansDesired)) != 0) {
+     *          setVelocity(0, 0, w); // zero forward, zero strafe, w angular velocity
+     *      }
      *
      * @param headingRadiansDesired
      * @return double between -1 and 1; which way and how hard the robot should turn towards the desired heading, compared to the actual heading of the robot.
