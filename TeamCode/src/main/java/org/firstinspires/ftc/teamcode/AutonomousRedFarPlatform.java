@@ -16,19 +16,25 @@ public class AutonomousRedFarPlatform extends ALinearOpMode3 {
     private final double movementPerRevolution = (2 * 2 * Math.PI); //inches (radius * 2PI)
     private final double movementPerSecond = gearRPS * movementPerRevolution; //inches per second lollol
 
-    //10 inches goes 5.1875 inches
+    //10 inches goes 7.8125 inches
 
     @Override
     public void runOpMode() {
         super.standardSetup();
 
         drive(10, 1);
+        manipulateArm(1);
+        time.reset();
+        while (time.time() < 2) {
+            telemetry.update();
+        }
+        manipulateArm(-1);
     }
 
     public void drive(double length, int forwardsBackwards) {
         //1 = forwards
         //-1 = backwards
-        double secondsOfMovement = length / movementPerSecond;
+        double secondsOfMovement = (length * (10 / 7.8125)) / movementPerSecond;
 
         time.reset();
         while (time.time() < secondsOfMovement && opModeIsActive()) {
@@ -36,16 +42,29 @@ public class AutonomousRedFarPlatform extends ALinearOpMode3 {
             topLeft.setPower(-forwardsBackwards);
             bottomRight.setPower(-forwardsBackwards);
             topRight.setPower(-forwardsBackwards);
+            telemetry.update();
         }
         bottomLeft.setPower(0);
         topLeft.setPower(0);
         bottomRight.setPower(0);
         topRight.setPower(0);
+        telemetry.update();
     }
 
     public void turn() {
-
+        //1 = right turn
+        //-1 = left turn
     }
 
-
+    public void manipulateArm(int direction) {
+        //1 = goes down
+        //-1 = goes up
+        time.reset();
+        while (time.time() < 1) {
+            arm.setPower(direction);
+            telemetry.update();
+        }
+        arm.setPower(-1);
+        telemetry.update();
+    }
 }
