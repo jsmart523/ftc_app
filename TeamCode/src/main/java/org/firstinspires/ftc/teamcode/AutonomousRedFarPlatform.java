@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.ALinearOpMode3;
  * Created by John on 1/11/2018.
  */
 @Autonomous(name = "AutonomousRedFarPlatform", group = "Linear OpMode")
-public class AutonomousRedFarPlatform extends ALinearOpMode3 {
+public class AutonomousRedFarPlatform extends ALinearOpMode4 {
     ElapsedTime time = new ElapsedTime();
     private final double rps = 2.53;
     private final double gearRPS = rps * (1.5 / 2);

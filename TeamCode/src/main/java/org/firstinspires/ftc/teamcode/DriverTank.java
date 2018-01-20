@@ -16,6 +16,7 @@ public class DriverTank extends ALinearOpMode3 {
         makeWheelsMove();
         rotateServos();
         moveLift();
+        telemetry.addData("Motor Position topLeft =", topLeft.getCurrentPosition());
     }
 
     public void makeWheelsMove() {

@@ -26,7 +26,7 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
     protected Servo right = null;
     protected GyroSensor gyro = null;
     protected ModernRoboticsI2cColorSensor color = null;
-
+    protected DcMotor arm = null;
 
     double powerFactor = 3.2;
     private Func_GyroHeading func_GyroHeading;
@@ -163,6 +163,7 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
         lift = hardwareMap.get(DcMotor.class, "lift");
         left = hardwareMap.get(Servo.class, "left");
         right = hardwareMap.get(Servo.class, "right");
+        arm = hardwareMap.get(DcMotor.class, "arm");
 
         bottomLeft.setDirection(DcMotor.Direction.FORWARD);
         topLeft.setDirection(DcMotor.Direction.FORWARD);
