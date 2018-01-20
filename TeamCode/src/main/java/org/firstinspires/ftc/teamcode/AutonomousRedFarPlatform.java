@@ -29,7 +29,7 @@ public class AutonomousRedFarPlatform extends ALinearOpMode4 {
             telemetry.update();
         }
         manipulateArm(-1);
-        turn(10);
+        turn(Math.PI);
     }
 
     public void drive(double length, int forwardsBackwards) {
@@ -52,8 +52,13 @@ public class AutonomousRedFarPlatform extends ALinearOpMode4 {
         telemetry.update();
     }
 
-    public void turn(double desiredHeading) { //degrees
-
+    public void turn(double headingRadiansDesired) { //radians
+        double v = 0;
+        v = getTurnVelocity(headingRadiansDesired);
+        while(v != 0) {
+            setVelocity(0, 0, v);
+            v = getTurnVelocity(headingRadiansDesired);
+        }
     }
 
     public void manipulateArm(int direction) {
