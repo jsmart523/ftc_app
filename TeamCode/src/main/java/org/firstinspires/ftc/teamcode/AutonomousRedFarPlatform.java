@@ -22,13 +22,21 @@ public class AutonomousRedFarPlatform extends ALinearOpMode4 {
     public void runOpMode() {
         super.standardSetup();
 
+
         drive(10, 1);
-        manipulateArm(1);
-        time.reset();
-        while (time.time() < 2) {
-            telemetry.update();
+        //manipulateArm(1);
+        boolean color = determineColor();
+        if (color) {
+            drive(.8, 1);
+            //manipulateArm(-1);
+            drive(.8, -1);
         }
-        manipulateArm(-1);
+        else if (!color) {
+            drive(.8, -1);
+            //manipulateArm(-1);
+            drive(.8, 1);
+        }
+        //manipulateArm(-1);
         turn(Math.PI);
     }
 
@@ -71,5 +79,16 @@ public class AutonomousRedFarPlatform extends ALinearOpMode4 {
         }
         arm.setPower(0);
         telemetry.update();
+    }
+
+    public boolean determineColor() {
+        color.enableLed(true);
+
+        if (color.red() > color.blue() && color.red() > color.green()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
