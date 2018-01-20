@@ -171,6 +171,10 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
         topRight.setDirection(DcMotor.Direction.REVERSE);
 
 
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
         setStatus("calibrating gyro...");
         telemetry.update();
 
