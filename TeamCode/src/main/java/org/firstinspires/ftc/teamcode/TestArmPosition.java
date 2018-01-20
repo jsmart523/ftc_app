@@ -9,17 +9,28 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "TestArmPosition", group = "Linear Opmode")
 public class TestArmPosition extends ALinearOpMode4 {
+
     @Override
     protected void customSetup() {
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm.setPower(0.3);
     }
 
     @Override
     protected void customLoopBody() {
-        telemetry.addData("Arm Encoder", arm.getCurrentPosition());
-        if ()
+        while (opModeIsActive()) {
+            moveArm();
+        }
+    }
+
+    public void moveArm() {
+        if (gamepad1.a) {
+            arm.setPower(.3);
+            arm.setTargetPosition(413);
+        }
+        else if (gamepad1.b) {
+            arm.setPower(.3);
+            arm.setTargetPosition(0);
+        }
     }
 
     protected static final int ARM_ENC_UP = 50;

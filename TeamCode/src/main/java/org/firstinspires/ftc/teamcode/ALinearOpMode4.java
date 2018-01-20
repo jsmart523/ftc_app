@@ -173,6 +173,7 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setPower(0.3);
 
 
         setStatus("calibrating gyro...");
@@ -214,7 +215,7 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
      */
     public double getTurnVelocity(double headingRadiansDesired) {
         final double minTurnThresholdRadians = Math.PI/180; // 1 degrees
-        final double fullTurnThresholdRadians = Math.PI/3; // 60 degrees
+        final double fullTurnThresholdRadians = Math.PI; // 180 degrees
 
         double headingRadiansCorrection = radians180(headingRadiansDesired - getHeadingRadiansActual());
         double sign = 0 - Math.signum(headingRadiansCorrection);
