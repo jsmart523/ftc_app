@@ -81,8 +81,11 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
     }
 
     public double convertStickToPower(double pos) {
-
         return Math.signum(pos) * Math.pow(Math.abs(pos), powerFactor);
+    }
+
+    public double convertStickToPower(double x, double y) {
+        return convertStickToPower(Math.hypot(x, y));
     }
 
     public void setRadialVelocity(double headingRadians, double velocity, double speedTurnRight) {
@@ -190,6 +193,37 @@ public abstract class ALinearOpMode4 extends LinearOpMode implements IContainsGy
                 .addData("right", right.getPosition());
         left.setPosition(1);
         right.setPosition(0);
+    }
+
+    /**
+     *
+     * @param headingRadiansDesired
+     * @return double between -1 and 1; which way and how hard the robot should turn towards the desired heading, compared to the actual heading of the robot.
+     */
+    public double getTurnVelocity(double headingRadiansDesired) {
+        final double minTurnThresholdRadians = Math.PI/180; // 1 degrees
+        final double fullTurnThresholdRadians = Math.PI/3; // 60 degrees
+
+        double headingRadiansCorrection = radians180(headingRadiansDesired - getHeadingRadiansActual());
+        double sign = 0 - Math.signum(headingRadiansCorrection);
+        double absRadiansCorrection = Math.abs(headingRadiansCorrection);
+        double ret;
+
+        if (absRadiansCorrection < minTurnThresholdRadians) {
+            ret = 0;
+        }
+        else if (absRadiansCorrection > fullTurnThresholdRadians) {
+            ret = sign;
+        }
+        else {
+            ret = sign * (absRadiansCorrection / fullTurnThresholdRadians);
+        }
+        telemetry.addLine()
+                .addData("hd", Math.round(Math.toDegrees(headingRadiansDesired)))
+                .addData("hc", Math.round(Math.toDegrees(headingRadiansCorrection)))
+                .addData("hac", Math.round(Math.toDegrees(absRadiansCorrection)))
+                .addData("t", ret);
+        return ret;
     }
 }
 

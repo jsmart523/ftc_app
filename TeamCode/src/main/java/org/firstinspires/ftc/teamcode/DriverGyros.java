@@ -25,16 +25,26 @@ public class DriverGyros extends ALinearOpMode4 {
     public void makeWheelsMove() {
         double left_stick_x = gamepad1.left_stick_x;
         double left_stick_y = gamepad1.left_stick_y;
+        double right_stick_x = gamepad1.right_stick_x;
+        double right_stick_y = gamepad1.right_stick_y;
         double headingAbsoluteRadians = getRadiansFromStickValues(left_stick_x, left_stick_y);
         double headingRelativeRadians = radians180(headingAbsoluteRadians - getHeadingRadiansActual());
         double v = convertStickToPower(Math.hypot(left_stick_x, left_stick_y));
         double turn;
+
         if (gamepad1.dpad_up) {
-            setHeadingRadiansActual(getRadiansFromStickValues(gamepad1.right_stick_x, gamepad1.right_stick_y));
+            setHeadingRadiansActual(getRadiansFromStickValues(right_stick_x, right_stick_y));
             turn = 0;
         }
         else {
-            turn = getTurnVelocity();
+            if (right_stick_x == 0 && right_stick_y == 0) {
+                turn = 0;
+            }
+            else {
+                double headingRadiansDesired = getRadiansFromStickValues(right_stick_x, right_stick_y);
+                double turnEffortPercentage = convertStickToPower(right_stick_x, right_stick_y);// value from -1 to 1
+                turn = getTurnVelocity(headingRadiansDesired) * turnEffortPercentage;
+            }
         }
 
         telemetry.addLine()
@@ -44,42 +54,6 @@ public class DriverGyros extends ALinearOpMode4 {
 
         setRadialVelocity(headingRelativeRadians, v, turn);
     }
-
-    public double getTurnVelocity() {
-        final double minTurnThresholdRadians = Math.PI/180; // 1 degrees
-        final double fullTurnThresholdRadians = Math.PI/3; // 60 degrees
-        final double maxTurnValue = 1;
-
-        double x = gamepad1.right_stick_x;
-        double y = gamepad1.right_stick_y;
-
-        if (x == 0 && y == 0) {
-            return 0;
-        }
-        
-        double headingRadiansDesired = getRadiansFromStickValues(x, y);
-        double headingRadiansCorrection = radians180(headingRadiansDesired - getHeadingRadiansActual());
-        double sign = 0 - Math.signum(headingRadiansCorrection);
-        double absRadiansCorrection = Math.abs(headingRadiansCorrection);
-        double turnEffortPercentage = convertStickToPower(Math.hypot(x, y)) * maxTurnValue;// value from -1 to 1
-
-        if (absRadiansCorrection < minTurnThresholdRadians) {
-            turnEffortPercentage = 0;
-        }
-        else if (absRadiansCorrection > fullTurnThresholdRadians) {
-            turnEffortPercentage *= sign;
-        }
-        else {
-            turnEffortPercentage *= sign * (absRadiansCorrection / fullTurnThresholdRadians);
-        }
-        telemetry.addLine()
-                .addData("hd", Math.round(Math.toDegrees(headingRadiansDesired)))
-                .addData("hc", Math.round(Math.toDegrees(headingRadiansCorrection)))
-                .addData("hac", Math.round(Math.toDegrees(absRadiansCorrection)))
-                .addData("t", turnEffortPercentage);
-        return turnEffortPercentage;
-    }
-
 
     public void rotateServos() { //Right Servo out = MAX, Left Servo out = MIN
         if (gamepad1.x) { //change to y and x
