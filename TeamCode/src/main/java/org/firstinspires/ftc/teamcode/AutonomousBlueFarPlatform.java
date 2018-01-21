@@ -4,14 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.ALinearOpMode3;
-import org.firstinspires.ftc.teamcode.utils.ColorSensorArm;
-
 /**
  * Created by Awos on 1/11/2018.
  */
-@Autonomous(name = "AutonomousRedFarPlatform", group = "Linear OpMode")
-public class AutonomousRedFarPlatform extends ALinearOpMode4 {
+@Autonomous(name = "AutonomousBlueFarPlatform", group = "Linear OpMode")
+public class AutonomousBlueFarPlatform extends ALinearOpMode4 {
     ElapsedTime time = new ElapsedTime();
     private final double rps = 2.53;
     private final double gearRPS = rps * (1.5 / 2);
@@ -93,7 +90,7 @@ public class AutonomousRedFarPlatform extends ALinearOpMode4 {
             telemetry.update();
         }
 
-        drive(28, -1);
+        drive(28, 1);
 
         time.reset();
         while (time.time() < 2) {
@@ -107,14 +104,14 @@ public class AutonomousRedFarPlatform extends ALinearOpMode4 {
             telemetry.update();
         }
 
-        drive(10, 1);
+        drive(11, 1);
 
         time.reset();
         while (time.time() < 1) {
             telemetry.update();
         }
 
-        turn(1.8, .2);
+        turn(1.8, -.2);
 
         time.reset();
         while (time.time() < 1) {
@@ -229,7 +226,7 @@ public class AutonomousRedFarPlatform extends ALinearOpMode4 {
     public boolean determineColor() {
         color.enableLed(true);
 
-        if (color.red() > color.blue() && color.red() > color.green()) {
+        if (color.blue() > color.red() && color.blue()> color.green()) {
             return true;
         }
         else {

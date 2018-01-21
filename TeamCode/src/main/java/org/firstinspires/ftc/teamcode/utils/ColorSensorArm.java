@@ -35,21 +35,27 @@ public class ColorSensorArm {
 
     public ColorSensorArm(DcMotor arm) {
         m_arm = arm;
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm.setPower(ARM_POWER);
-        up();
     }
 
-    public void up() {
-        m_arm.setTargetPosition(ARM_ENC_UP);
-    }
+    public void moveArm(boolean a) {
+        m_arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        double speed = 0;
+        int target = 0;
+        if (a) {
+            target = 0;
+        }
+        else if (!a) {
+            target = 400;
+        }
+        if (Math.abs(target - m_arm.getTargetPosition()) < 100) {
+            speed = .1;
+        }
+        else {
+            speed = .6;
+        }
 
-    public void down() {
-        m_arm.setTargetPosition(ARM_ENC_DOWN);
-    }
-
-    public boolean isBusy() {
-        return m_arm.isBusy();
+        m_arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m_arm.setPower(speed);
+        m_arm.setTargetPosition(target);
     }
 }

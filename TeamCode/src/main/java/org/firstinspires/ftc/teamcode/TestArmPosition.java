@@ -12,30 +12,44 @@ public class TestArmPosition extends ALinearOpMode4 {
 
     @Override
     protected void customSetup() {
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     @Override
     protected void customLoopBody() {
         while (opModeIsActive()) {
-            moveArm();
+            motorTest();
         }
     }
 
     public void moveArm() {
+        speed = 0;
         if (gamepad1.a) {
-            arm.setPower(.3);
-            arm.setTargetPosition(413);
+            target = 0;
         }
         else if (gamepad1.b) {
-            arm.setPower(.3);
-            arm.setTargetPosition(0);
+            target = 400;
         }
+        if (Math.abs(target - arm.getTargetPosition()) < 100) {
+            speed = .1;
+        }
+        else {
+            speed = .6;
+        }
+
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setPower(speed);
+        arm.setTargetPosition(target);
     }
 
     protected static final int ARM_ENC_UP = 50;
     protected static final int ARM_ENC_DOWN = 100;
+    protected int target;
+    protected double speed;
 
+    public void motorTest() {
+        arm.setPower(.5);
+    }
 
 
 }

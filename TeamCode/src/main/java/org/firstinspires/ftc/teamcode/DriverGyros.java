@@ -69,7 +69,7 @@ public class DriverGyros extends ALinearOpMode4 {
 
     public void moveLift() {
         if (gamepad1.a) {
-            lift.setPower(1);
+            //lift.setPower(1);
         }
         else if (gamepad1.b) {
             lift.setPower(-1);
